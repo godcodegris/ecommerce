@@ -1,7 +1,9 @@
+// components/Card.jsx
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import "../styles/Productos.css";
 
-export default function Card({ producto, onAgregar }) {
+export default function Card({ producto, onAgregar, productoIndex }) {
   const [cantidad, setCantidad] = useState(1);
 
   if (!producto) return null;
@@ -12,28 +14,34 @@ export default function Card({ producto, onAgregar }) {
   };
 
   const handleAgregar = () => {
+    // ✅ NO tocar el ID original del producto aquí
     onAgregar(producto, cantidad);
     setCantidad(1);
   };
 
   return (
     <div className="producto-card">
-      <h1 style={{ color: "black" }}>{producto.nombre || "Sin nombre"}</h1>
+      <Link to={`/producto/${productoIndex}`} style={{ textDecoration: 'none' }}>
+        <h1 style={{ color: "black" }}>{producto.nombre || "Sin nombre"}</h1>
+      </Link>
+
       <p style={{ color: "black" }}>{producto.descripcion || "Sin descripción"}</p>
 
       {producto.imagen ? (
-        <img
-          className="producto-image"
-          src={producto.imagen}
-          alt={producto.nombre || "Producto"}
-          style={{
-            width: "150px",
-            height: "150px",
-            objectFit: "cover",
-            borderRadius: "5px",
-            marginBottom: "10px"
-          }}
-        />
+        <Link to={`/producto/${productoIndex}`}>
+          <img
+            className="producto-image"
+            src={producto.imagen}
+            alt={producto.nombre || "Producto"}
+            style={{
+              width: "150px",
+              height: "150px",
+              objectFit: "cover",
+              borderRadius: "5px",
+              marginBottom: "10px"
+            }}
+          />
+        </Link>
       ) : (
         <p style={{ color: "gray" }}>Imagen no disponible</p>
       )}
@@ -52,6 +60,10 @@ export default function Card({ producto, onAgregar }) {
       <button onClick={handleAgregar}>
         Agregar al carrito
       </button>
+
+      <Link to={`/producto/${productoIndex}`} style={{ marginTop: '10px', display: 'block' }}>
+        <button>Ver detalles</button>
+      </Link>
     </div>
   );
 }

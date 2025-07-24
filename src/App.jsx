@@ -5,60 +5,35 @@ import Home from "./layouts/Home.jsx";
 import Carrito from "./components/Carrito.jsx";
 import About from "./components/About.jsx";
 import ProductoDetalle from "./components/ProductoDetalle.jsx";
+import Navegacion from "./components/Navegacion.jsx"; // ✅ importás la navegación
 
 function App() {
   const [carrito, setCarrito] = useState([]);
 
-  // Agrega productos al carrito con la cantidad seleccionada
   const agregarAlCarrito = (producto, cantidad) => {
     const cantidadNum = Number(cantidad);
-    
-    console.log("🔍 AGREGANDO PRODUCTO:");
-    console.log("  - ID:", `"${producto.id}"`, "(tipo:", typeof producto.id, ")");
-    console.log("  - Nombre:", producto.nombre);
-    console.log("  - Cantidad:", cantidadNum);
-    
+
     setCarrito(prev => {
-      console.log("🛒 CARRITO ANTES:", prev);
-      
-      const index = prev.findIndex(item => {
-        const coincide = String(item.id) === String(producto.id);
-        console.log(`  Comparando: "${item.id}" === "${producto.id}" = ${coincide}`);
-        return coincide;
-      });
-      
-      console.log("📍 Índice encontrado:", index);
-      
+      const index = prev.findIndex(item => String(item.id) === String(producto.id));
+
       if (index !== -1) {
         const nuevoCarrito = [...prev];
         nuevoCarrito[index] = {
           ...nuevoCarrito[index],
-          cantidad: nuevoCarrito[index].cantidad + cantidadNum
+          cantidad: nuevoCarrito[index].cantidad + cantidadNum,
         };
-        console.log("🔄 Producto actualizado:", nuevoCarrito[index]);
         return nuevoCarrito;
       } else {
-        const nuevoProducto = { ...producto, cantidad: cantidadNum };
-        console.log("🆕 Nuevo producto:", nuevoProducto);
-        return [...prev, nuevoProducto];
+        return [...prev, { ...producto, cantidad: cantidadNum }];
       }
     });
   };
 
-  // Elimina una unidad del producto (lo elimina si llega a cero)
   const eliminarDelCarrito = (productoId) => {
-    console.log("🗑️ ELIMINANDO PRODUCTO ID:", `"${productoId}"`);
-    
     setCarrito(prev => {
-      console.log("🛒 CARRITO ANTES DE ELIMINAR:", prev);
-      
-      const nuevoCarrito = prev.reduce((acc, item) => {
-        const coincide = String(item.id) === String(productoId);
-        console.log(`  Comparando para eliminar: "${item.id}" === "${productoId}" = ${coincide}`);
-        
-        if (coincide) {
+      return prev.reduce((acc, item) => {
+        if (String(item.id) === String(productoId)) {
           const nuevaCantidad = item.cantidad - 1;
-          console.log(`  Reduciendo cantidad de ${item.cantidad} a ${nuevaCantidad}`);
           if (nuevaCantidad > 0) {
             acc.push({ ...item, cantidad: nuevaCantidad });
           }
@@ -67,19 +42,16 @@ function App() {
         }
         return acc;
       }, []);
-      
-      console.log("🛒 CARRITO DESPUÉS DE ELIMINAR:", nuevoCarrito);
-      return nuevoCarrito;
     });
   };
 
   const totalCantidad = carrito.reduce((acc, item) => acc + item.cantidad, 0);
 
-  console.log("🛒 CARRITO ACTUAL:", carrito);
-  console.log("📦 CANTIDAD TOTAL:", totalCantidad);
-
   return (
     <BrowserRouter>
+      {/* ✅ Esto estará siempre visible en todas las rutas */}
+      <Navegacion cantidad={totalCantidad} />
+
       <Routes>
         <Route
           path="/"
@@ -90,7 +62,10 @@ function App() {
           element={<Carrito carrito={carrito} onEliminar={eliminarDelCarrito} />}
         />
         <Route path="/about" element={<About />} />
-        <Route path="/producto/:id" element={<ProductoDetalle />} />
+        <Route
+          path="/producto/:id"
+          element={<ProductoDetalle onAgregar={agregarAlCarrito} />}
+        />
       </Routes>
     </BrowserRouter>
   );
