@@ -6,7 +6,9 @@ export default function Navegacion({ cantidad = 0 }) {
       <Link to="/">Inicio</Link>
       <Link to="/carrito">🛒 Ver carrito ({cantidad})</Link>
       <Link to="/about">Sobre Nosotros</Link>
-      <Link to="/contact">Contacto</Link> {/* <-- Nuevo link */}
+      <Link to="/contact">Contacto</Link> 
+      <Link to="/login">Login</Link>
+
     </nav>
   );
 }

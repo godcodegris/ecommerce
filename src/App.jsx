@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
+import Login from "./components/Login.jsx";
+import Contact from "./components/Contact.jsx";
 import Home from "./layouts/Home.jsx";
 import Carrito from "./components/Carrito.jsx";
 import About from "./components/About.jsx";
@@ -49,10 +50,14 @@ function App() {
 
   return (
     <BrowserRouter>
-      {/* ✅ Esto estará siempre visible en todas las rutas */}
+     
       <Navegacion cantidad={totalCantidad} />
 
       <Routes>
+        <Route path="/contact" element={<Contact />} />
+
+        <Route path="/login" element={<Login />} />
+
         <Route
           path="/"
           element={<Home onAgregar={agregarAlCarrito} cantidad={totalCantidad} />}
