@@ -7,6 +7,7 @@ import Carrito from "./components/Carrito.jsx";
 import About from "./components/About.jsx";
 import ProductoDetalle from "./components/ProductoDetalle.jsx";
 import Navegacion from "./components/Navegacion.jsx"; // ✅ importás la navegación
+import ProtectedRoute from "./components/ProtectedRoute.jsx"; // Importa el componente
 
 function App() {
   const [carrito, setCarrito] = useState([]);
@@ -50,21 +51,22 @@ function App() {
 
   return (
     <BrowserRouter>
-     
       <Navegacion cantidad={totalCantidad} />
 
       <Routes>
         <Route path="/contact" element={<Contact />} />
-
         <Route path="/login" element={<Login />} />
-
         <Route
           path="/"
           element={<Home onAgregar={agregarAlCarrito} cantidad={totalCantidad} />}
         />
         <Route
           path="/carrito"
-          element={<Carrito carrito={carrito} onEliminar={eliminarDelCarrito} />}
+          element={
+            <ProtectedRoute>
+              <Carrito carrito={carrito} onEliminar={eliminarDelCarrito} />
+            </ProtectedRoute>
+          }
         />
         <Route path="/about" element={<About />} />
         <Route

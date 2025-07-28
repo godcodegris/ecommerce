@@ -1,49 +1,70 @@
-import { useState, useContext } from "react";
-import { AuthContext } from "./AuthContext.jsx";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from 'react';
+import { useAuth } from './AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
-  const { login } = useContext(AuthContext);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState(null);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const { login, user } = useAuth();
   const navigate = useNavigate();
+
+  // ✅ Redirigir si ya está logueado
+  useEffect(() => {
+    if (user) {
+      navigate('/');
+    }
+  }, [user, navigate]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const success = login(username, password);
     if (success) {
-      navigate("/"); // Redirige a inicio si login correcto
+      // no es necesario navegar aquí porque el useEffect lo hará
     } else {
-      setError("Usuario o contraseña incorrectos");
+      setError('Credenciales incorrectas');
     }
   };
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h2>Iniciar sesión</h2>
+    <div style={{ padding: '20px', maxWidth: '400px', margin: '0 auto' }}>
+      <h2>Iniciar Sesión</h2>
+      {error && <p style={{ color: 'red' }}>{error}</p>}
       <form onSubmit={handleSubmit}>
-        <div>
-          <label>Usuario:</label><br />
+        <div style={{ marginBottom: '10px' }}>
           <input
             type="text"
+            placeholder="Usuario (admin)"
             value={username}
-            onChange={e => setUsername(e.target.value)}
-            required
+            onChange={(e) => setUsername(e.target.value)}
+            style={{ width: '100%', padding: '8px', boxSizing: 'border-box' }}
           />
         </div>
-        <div>
-          <label>Contraseña:</label><br />
+        <div style={{ marginBottom: '10px' }}>
           <input
             type="password"
+            placeholder="Contraseña (1234)"
             value={password}
-            onChange={e => setPassword(e.target.value)}
-            required
+            onChange={(e) => setPassword(e.target.value)}
+            style={{ width: '100%', padding: '8px', boxSizing: 'border-box' }}
           />
         </div>
-        {error && <p style={{ color: "red" }}>{error}</p>}
-        <button type="submit">Entrar</button>
+        <button 
+          type="submit"
+          style={{ 
+            width: '100%', 
+            padding: '10px', 
+            backgroundColor: '#007bff', 
+            color: 'white', 
+            border: 'none',
+            borderRadius: '4px',
+            cursor: 'pointer'
+          }}
+        >
+          Iniciar Sesión
+        </button>
       </form>
+      <p><small>Credenciales: admin / 1234</small></p>
     </div>
   );
 }
