@@ -57,19 +57,19 @@ export default function Carrito({ carrito, onEliminar }) {
           )}
 
           <div style={{ flex: 1 }}>
-            <h3 style={{ margin: "0 0 5px", color: "#343a40" }}>
+            <h3 style={{ margin: "0 0 5px", color: "#000" }}>
               {producto.nombre} (ID: "{producto.id}")
             </h3>
-            <p style={{ margin: "0 0 5px", color: "#6c757d" }}>
+            <p style={{ margin: "0 0 5px", color: "#000" }}>
               {producto.descripcion}
             </p>
-            <p style={{ margin: "0 0 5px" }}>
+            <p style={{ margin: "0 0 5px", color: "#000" }}>
               <strong>Precio:</strong> {producto.precio} $
             </p>
-            <p style={{ margin: "0 0 5px" }}>
+            <p style={{ margin: "0 0 5px", color: "#000" }}>
               <strong>Cantidad:</strong> {producto.cantidad}
             </p>
-            <p style={{ margin: "0 0 5px" }}>
+            <p style={{ margin: "0 0 5px", color: "#000" }}>
               <strong>Total:</strong> {(producto.precio * producto.cantidad).toFixed(2)} $
             </p>
           </div>

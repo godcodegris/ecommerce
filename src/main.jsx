@@ -1,12 +1,16 @@
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.jsx'
-import { AuthProvider } from './components/AuthContext.jsx'  // Importa el provider
+import React from "react";
+import { createRoot } from "react-dom/client";
+import App from "./App.jsx";
+import { AuthProvider } from "./components/AuthContext.jsx";
+import { ProductProvider } from "./components/ProductContext.jsx";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 createRoot(document.getElementById('root')).render(
-  // <StrictMode>  // opcional, podés descomentar si querés
+  <React.StrictMode>
     <AuthProvider>
-      <App />
+      <ProductProvider>
+        <App />
+      </ProductProvider>
     </AuthProvider>
-  // </StrictMode>
+  </React.StrictMode>
 );

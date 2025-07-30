@@ -6,8 +6,14 @@ import Home from "./layouts/Home.jsx";
 import Carrito from "./components/Carrito.jsx";
 import About from "./components/About.jsx";
 import ProductoDetalle from "./components/ProductoDetalle.jsx";
-import Navegacion from "./components/Navegacion.jsx"; // ✅ importás la navegación
-import ProtectedRoute from "./components/ProtectedRoute.jsx"; // Importa el componente
+import Navegacion from "./components/Navegacion.jsx"; 
+import ProtectedRoute from "./components/ProtectedRoute.jsx"; 
+import Footer from './components/Footer.jsx';
+
+
+
+
+
 
 function App() {
   const [carrito, setCarrito] = useState([]);
@@ -74,6 +80,7 @@ function App() {
           element={<ProductoDetalle onAgregar={agregarAlCarrito} />}
         />
       </Routes>
+      <Footer />
     </BrowserRouter>
   );
 }
