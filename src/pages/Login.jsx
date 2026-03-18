@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import '../styles/Productos.css';
 
 export default function Login() {
   const [username, setUsername] = useState('');
@@ -9,7 +10,6 @@ export default function Login() {
   const { login, user } = useAuth();
   const navigate = useNavigate();
 
-  // ✅ Redirigir si ya está logueado
   useEffect(() => {
     if (user) {
       navigate('/');
@@ -19,52 +19,45 @@ export default function Login() {
   const handleSubmit = (e) => {
     e.preventDefault();
     const success = login(username, password);
-    if (success) {
-      // no es necesario navegar aquí porque el useEffect lo hará
-    } else {
+    if (!success) {
       setError('Credenciales incorrectas');
     }
   };
 
   return (
-    <div style={{ padding: '20px', maxWidth: '400px', margin: '0 auto' }}>
-      <h2>Iniciar Sesión</h2>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <form onSubmit={handleSubmit}>
-        <div style={{ marginBottom: '10px' }}>
-          <input
-            type="text"
-            placeholder="Usuario (admin)"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            style={{ width: '100%', padding: '8px', boxSizing: 'border-box' }}
-          />
-        </div>
-        <div style={{ marginBottom: '10px' }}>
-          <input
-            type="password"
-            placeholder="Contraseña (1234)"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            style={{ width: '100%', padding: '8px', boxSizing: 'border-box' }}
-          />
-        </div>
-        <button
-          type="submit"
-          style={{
-            width: '100%',
-            padding: '10px',
-            backgroundColor: '#007bff',
-            color: 'white',
-            border: 'none',
-            borderRadius: '4px',
-            cursor: 'pointer'
-          }}
-        >
-          Iniciar Sesión
-        </button>
-      </form>
-      <p><small>Credenciales: admin / 1234</small></p>
+    <div className="login-container">
+      <div className="login-card">
+        <h2>Bienvenido</h2>
+        <p className="login-subtitle">Inicia sesion para acceder a tu cuenta</p>
+
+        {error && <div className="login-error">{error}</div>}
+
+        <form onSubmit={handleSubmit} className="login-form">
+          <div className="form-group">
+            <label>Usuario</label>
+            <input
+              type="text"
+              placeholder="Ingresa tu usuario"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+          </div>
+          <div className="form-group">
+            <label>Contrasena</label>
+            <input
+              type="password"
+              placeholder="Ingresa tu contrasena"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+          <button type="submit" className="btn-primary">
+            Iniciar Sesion
+          </button>
+        </form>
+
+        <p className="login-hint">Credenciales de prueba: admin / 1234</p>
+      </div>
     </div>
   );
 }

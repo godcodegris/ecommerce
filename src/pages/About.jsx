@@ -1,16 +1,37 @@
-// src/pages/About.jsx
+import '../styles/Productos.css';
+
 export default function About() {
   return (
-    <div style={{ padding: "20px" }}>
-      <h1>Sobre nuestra tienda</h1>
+    <div className="page-section">
+      <h1>Sobre <span>Thundera Collectibles</span></h1>
       <p>
-        Bienvenido a nuestra tienda de coleccionables. Nos apasiona ofrecer
-        productos únicos para los fanáticos del cómic, el cine y la cultura pop.
+        Somos una tienda dedicada a los coleccionables mas exclusivos del mundo
+        del comic, el cine y la cultura pop. Cada pieza que ofrecemos esta
+        cuidadosamente seleccionada para los verdaderos fans.
       </p>
       <p>
-        Cada artículo está seleccionado con dedicación, para que encuentres
-        esa pieza que le falta a tu colección.
+        Nuestro objetivo es que encuentres esa figura, ese comic o ese objeto
+        unico que le falta a tu coleccion. Trabajamos con las mejores marcas
+        y distribuidores para traerte lo mejor.
       </p>
+
+      <div className="page-features">
+        <div className="feature-card">
+          <div className="feature-icon">&#127919;</div>
+          <h3>Productos Originales</h3>
+          <p>Solo trabajamos con productos 100% originales y licenciados.</p>
+        </div>
+        <div className="feature-card">
+          <div className="feature-icon">&#128666;</div>
+          <h3>Envios Seguros</h3>
+          <p>Embalaje especial para que tu coleccionable llegue perfecto.</p>
+        </div>
+        <div className="feature-card">
+          <div className="feature-icon">&#11088;</div>
+          <h3>Fan Community</h3>
+          <p>Unite a nuestra comunidad de coleccionistas apasionados.</p>
+        </div>
+      </div>
     </div>
   );
 }

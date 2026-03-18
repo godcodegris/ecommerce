@@ -1,99 +1,71 @@
+import { Link } from "react-router-dom";
 import { useCarrito } from "../context/CarritoContext.jsx";
 import "../styles/Productos.css";
 
 export default function Carrito() {
-  const { carrito, onEliminar } = useCarrito();
+  const { carrito, onEliminar, totalPrecio } = useCarrito();
+
   if (!carrito || carrito.length === 0) {
-    return <p>🛒 El carrito está vacío</p>;
+    return (
+      <div className="carrito-container">
+        <div className="carrito-empty">
+          <div className="carrito-empty-icon">&#128722;</div>
+          <p>Tu carrito esta vacio</p>
+          <Link to="/" className="btn-primary">
+            Explorar productos
+          </Link>
+        </div>
+      </div>
+    );
   }
 
   return (
-    <div
-      className="carrito-conteiner"
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: "20px",
-        padding: "10px"
-      }}
-    >
-      {carrito.map((producto, index) => (
-        <div
-          key={`producto-${index}`}
-          className="carrito-card"
-          style={{
-            display: "flex",
-            alignItems: "center",
-            border: "2px solid #007bff",
-            borderRadius: "8px",
-            padding: "15px",
-            backgroundColor: "#f8f9fa"
-          }}
-        >
-          {producto.imagen ? (
-            <img
-              src={producto.imagen}
-              alt={producto.nombre}
-              style={{
-                width: "80px",
-                height: "80px",
-                objectFit: "cover",
-                borderRadius: "4px",
-                marginRight: "15px"
-              }}
-            />
-          ) : (
-            <div
-              style={{
-                width: "80px",
-                height: "80px",
-                backgroundColor: "#ccc",
-                marginRight: "15px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center"
-              }}
-            >
-              Sin imagen
-            </div>
-          )}
+    <div className="carrito-container">
+      <div className="carrito-header">
+        <h2>Tu Carrito</h2>
+      </div>
 
-          <div style={{ flex: 1 }}>
-            <h3 style={{ margin: "0 0 5px", color: "#000" }}>
-              {producto.nombre} (ID: "{producto.id}")
-            </h3>
-            <p style={{ margin: "0 0 5px", color: "#000" }}>
-              {producto.descripcion}
-            </p>
-            <p style={{ margin: "0 0 5px", color: "#000" }}>
-              <strong>Precio:</strong> {producto.precio} $
-            </p>
-            <p style={{ margin: "0 0 5px", color: "#000" }}>
-              <strong>Cantidad:</strong> {producto.cantidad}
-            </p>
-            <p style={{ margin: "0 0 5px", color: "#000" }}>
-              <strong>Total:</strong> {(producto.precio * producto.cantidad).toFixed(2)} $
-            </p>
+      {carrito.map((producto, index) => (
+        <div key={`carrito-${index}`} className="carrito-item">
+          <div className="carrito-item-img-wrapper">
+            {producto.imagen ? (
+              <img
+                src={producto.imagen}
+                alt={producto.nombre}
+                className="carrito-item-img"
+              />
+            ) : (
+              <div className="carrito-item-no-img">Sin imagen</div>
+            )}
           </div>
 
+          <div className="carrito-item-info">
+            <h3>{producto.nombre}</h3>
+            <p className="item-precio">${producto.precio} c/u</p>
+            <p className="item-cantidad">Cantidad: {producto.cantidad}</p>
+          </div>
+
+          <span className="carrito-item-total">
+            ${(producto.precio * producto.cantidad).toFixed(2)}
+          </span>
+
           <button
-            onClick={() => {
-              console.log("🗑️ Botón eliminar clickeado para ID:", producto.id);
-              onEliminar(producto.id);
-            }}
-            style={{
-              padding: "8px 12px",
-              backgroundColor: "#dc3545",
-              color: "white",
-              border: "none",
-              borderRadius: "4px",
-              cursor: "pointer"
-            }}
+            onClick={() => onEliminar(producto.id)}
+            className="btn-danger"
           >
-            Eliminar uno
+            Quitar
           </button>
         </div>
       ))}
+
+      <div className="carrito-summary">
+        <p className="carrito-total">
+          Total: <span>${totalPrecio.toFixed(2)}</span>
+        </p>
+        <button className="btn-accent">
+          Finalizar compra
+        </button>
+      </div>
     </div>
   );
 }
