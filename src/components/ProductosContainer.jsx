@@ -1,33 +1,11 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Card from "./Card.jsx";
+import { useProductos } from "../context/ProductContext.jsx";
 import "../styles/Productos.css";
 
 export default function ProductosContainer({ onAgregar }) {
-  const [productos, setProductos] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
-
-  // Estado para la búsqueda
+  const { productos, loading, error } = useProductos();
   const [busqueda, setBusqueda] = useState("");
-
-  useEffect(() => {
-    fetch("https://68659fd989803950dbafe5ae.mockapi.io/productos")
-      .then(res => {
-        if (!res.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return res.json();
-      })
-      .then(data => {
-        setProductos(data);
-        setLoading(false);
-      })
-      .catch(error => {
-        console.error("❌ Error al cargar productos:", error);
-        setError(true);
-        setLoading(false);
-      });
-  }, []);
 
   if (loading) return <p>Cargando productos...</p>;
   if (error) return <p>Error al cargar productos</p>;

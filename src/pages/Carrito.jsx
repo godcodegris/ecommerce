@@ -1,6 +1,8 @@
+import { useCarrito } from "../context/CarritoContext.jsx";
 import "../styles/Productos.css";
 
-export default function Carrito({ carrito, onEliminar }) {
+export default function Carrito() {
+  const { carrito, onEliminar } = useCarrito();
   if (!carrito || carrito.length === 0) {
     return <p>🛒 El carrito está vacío</p>;
   }

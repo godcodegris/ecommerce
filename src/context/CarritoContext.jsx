@@ -1,9 +1,7 @@
 import { createContext, useContext, useState } from "react";
 
-// 1. Crear el Context
 const CarritoContext = createContext();
 
-// 2. Hook personalizado para usar el Context
 export const useCarrito = () => {
   const context = useContext(CarritoContext);
   if (!context) {
@@ -12,32 +10,42 @@ export const useCarrito = () => {
   return context;
 };
 
-// 3. Provider del Context
 export const CarritoProvider = ({ children }) => {
   const [carrito, setCarrito] = useState([]);
 
   const onAgregar = (producto, cantidad) => {
-    setCarrito(carritoActual => {
-      const existe = carritoActual.find(item => item.id === producto.id);
-      
-      if (existe) {
-        // Si existe, actualizar cantidad
-        return carritoActual.map(item =>
-          item.id === producto.id
-            ? { ...item, cantidad: item.cantidad + cantidad }
-            : item
-        );
+    const cantidadNum = Number(cantidad);
+
+    setCarrito(prev => {
+      const index = prev.findIndex(item => String(item.id) === String(producto.id));
+
+      if (index !== -1) {
+        const nuevoCarrito = [...prev];
+        nuevoCarrito[index] = {
+          ...nuevoCarrito[index],
+          cantidad: nuevoCarrito[index].cantidad + cantidadNum,
+        };
+        return nuevoCarrito;
       } else {
-        // Si no existe, agregar nuevo
-        return [...carritoActual, { ...producto, cantidad }];
+        return [...prev, { ...producto, cantidad: cantidadNum }];
       }
     });
   };
 
-  const onEliminar = (id) => {
-    setCarrito(carritoActual => 
-      carritoActual.filter(item => item.id !== id)
-    );
+  const onEliminar = (productoId) => {
+    setCarrito(prev => {
+      return prev.reduce((acc, item) => {
+        if (String(item.id) === String(productoId)) {
+          const nuevaCantidad = item.cantidad - 1;
+          if (nuevaCantidad > 0) {
+            acc.push({ ...item, cantidad: nuevaCantidad });
+          }
+        } else {
+          acc.push(item);
+        }
+        return acc;
+      }, []);
+    });
   };
 
   const vaciarCarrito = () => {

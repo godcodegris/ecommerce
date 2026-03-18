@@ -1,8 +1,10 @@
 import { Link } from 'react-router-dom';
-import { useAuth } from './AuthContext';
+import { useAuth } from '../context/AuthContext';
+import { useCarrito } from '../context/CarritoContext';
 
-export default function Navegacion({ cantidad }) {
+export default function Navegacion() {
   const { user, logout } = useAuth();
+  const { totalItems } = useCarrito();
   
   return (
     <nav style={{ 
@@ -18,7 +20,7 @@ export default function Navegacion({ cantidad }) {
         <Link to="/about" style={{ textDecoration: 'none' }}>About</Link>
         <Link to="/contact" style={{ textDecoration: 'none' }}>Contact</Link>
         <Link to="/carrito" style={{ textDecoration: 'none' }}>
-          Carrito ({cantidad})
+          Carrito ({totalItems})
         </Link>
       </div>
       

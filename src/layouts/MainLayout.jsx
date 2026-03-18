@@ -1,8 +1,7 @@
-// layouts/Layout.jsx
 import Navegacion from "../components/Navegacion.jsx";
 import { Outlet } from "react-router-dom";
 
-export default function Layout({ cantidad }) {
+export default function MainLayout({ cantidad }) {
   return (
     <div>
       <Navegacion cantidad={cantidad} />

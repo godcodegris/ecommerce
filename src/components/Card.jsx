@@ -1,10 +1,13 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { useAuth } from "./AuthContext.jsx";
+import { useAuth } from "../context/AuthContext.jsx";
+import { useProductos } from "../context/ProductContext.jsx";
+import { deleteProducto, updateProducto } from "../services/productosService.js";
 import "../styles/Productos.css";
 
 export default function Card({ producto, productoIndex, onProductoEliminado, onProductoEditado }) {
   const { user } = useAuth();
+  const { eliminarProducto, editarProducto } = useProductos();
   const [editando, setEditando] = useState(false);
   const [nombre, setNombre] = useState("");
   const [descripcion, setDescripcion] = useState("");
@@ -16,18 +19,9 @@ export default function Card({ producto, productoIndex, onProductoEliminado, onP
   const handleEliminar = async () => {
     if (window.confirm("¿Estás seguro de que querés eliminar este producto?")) {
       try {
-        const idReal = await obtenerIdReal(productoIndex);
-        
-        const response = await fetch(`https://68659fd989803950dbafe5ae.mockapi.io/productos/${idReal}`, {
-          method: 'DELETE'
-        });
-        
-        if (response.ok) {
-          alert("✅ Producto eliminado correctamente");
-          window.location.reload();
-        } else {
-          throw new Error("Error al eliminar");
-        }
+        await deleteProducto(producto.id);
+        alert("✅ Producto eliminado correctamente");
+        eliminarProducto(producto.id);
       } catch (error) {
         console.error("Error:", error);
         alert("❌ Error al eliminar el producto");
@@ -47,56 +41,25 @@ export default function Card({ producto, productoIndex, onProductoEliminado, onP
     setEditando(false);
   };
 
-  const obtenerIdReal = async (indice) => {
-    try {
-      const response = await fetch("https://68659fd989803950dbafe5ae.mockapi.io/productos");
-      const productos = await response.json();
-      return productos[indice]?.id || (indice + 1);
-    } catch (error) {
-      console.log("No se pudo obtener ID real, usando índice + 1");
-      return indice + 1;
-    }
-  };
-
   const guardarEdicion = async (e) => {
     e.preventDefault();
-    
+
+    const datosAEnviar = {
+      nombre: nombre,
+      descripcion: descripcion,
+      precio: parseFloat(precio) || 0,
+      imagen: imagen
+    };
+
+    console.log("Datos a enviar:", datosAEnviar);
+    console.log("ID:", producto.id);
+
     try {
-      const idReal = await obtenerIdReal(productoIndex);
-      
-      const datosAEnviar = {
-        nombre: nombre,
-        descripcion: descripcion,
-        precio: parseFloat(precio) || 0,
-        imagen: imagen
-      };
-      
-      console.log("Datos a enviar:", datosAEnviar);
-      console.log("ID real:", idReal);
-      console.log("URL:", `https://68659fd989803950dbafe5ae.mockapi.io/productos/${idReal}`);
-      
-      const response = await fetch(`https://68659fd989803950dbafe5ae.mockapi.io/productos/${idReal}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(datosAEnviar)
-      });
-
-      console.log("Response status:", response.status);
-      console.log("Response ok:", response.ok);
-
-      if (response.ok) {
-        const resultado = await response.json();
-        console.log("Resultado:", resultado);
-        alert("✅ Producto actualizado correctamente");
-        setEditando(false);
-        window.location.reload();
-      } else {
-        const errorText = await response.text();
-        console.log("Error del servidor:", errorText);
-        throw new Error(`Error ${response.status}: ${errorText}`);
-      }
+      const resultado = await updateProducto(producto.id, datosAEnviar);
+      console.log("Resultado:", resultado);
+      alert("✅ Producto actualizado correctamente");
+      editarProducto(producto.id, datosAEnviar);
+      setEditando(false);
     } catch (error) {
       console.error("Error completo:", error);
       alert("❌ Error al actualizar el producto: " + error.message);
@@ -119,17 +82,17 @@ export default function Card({ producto, productoIndex, onProductoEliminado, onP
                 value={nombre}
                 onChange={(e) => setNombre(e.target.value)}
                 required
-                style={{ 
-                  width: "100%", 
-                  padding: "6px", 
-                  borderRadius: "4px", 
-                  border: "1px solid #ccc", 
+                style={{
+                  width: "100%",
+                  padding: "6px",
+                  borderRadius: "4px",
+                  border: "1px solid #ccc",
                   fontSize: "14px",
                   boxSizing: "border-box"
                 }}
               />
             </div>
-            
+
             <div style={{ marginBottom: "10px" }}>
               <label style={{ display: "block", marginBottom: "5px", fontSize: "14px", color: "black" }}>
                 Descripción:
@@ -139,18 +102,18 @@ export default function Card({ producto, productoIndex, onProductoEliminado, onP
                 onChange={(e) => setDescripcion(e.target.value)}
                 required
                 rows="2"
-                style={{ 
-                  width: "100%", 
-                  padding: "6px", 
-                  borderRadius: "4px", 
-                  border: "1px solid #ccc", 
-                  fontSize: "14px", 
+                style={{
+                  width: "100%",
+                  padding: "6px",
+                  borderRadius: "4px",
+                  border: "1px solid #ccc",
+                  fontSize: "14px",
                   resize: "vertical",
                   boxSizing: "border-box"
                 }}
               />
             </div>
-            
+
             <div style={{ marginBottom: "10px" }}>
               <label style={{ display: "block", marginBottom: "5px", fontSize: "14px", color: "black" }}>
                 Precio:
@@ -162,17 +125,17 @@ export default function Card({ producto, productoIndex, onProductoEliminado, onP
                 required
                 min="0"
                 step="0.01"
-                style={{ 
-                  width: "100%", 
-                  padding: "6px", 
-                  borderRadius: "4px", 
-                  border: "1px solid #ccc", 
+                style={{
+                  width: "100%",
+                  padding: "6px",
+                  borderRadius: "4px",
+                  border: "1px solid #ccc",
                   fontSize: "14px",
                   boxSizing: "border-box"
                 }}
               />
             </div>
-            
+
             <div style={{ marginBottom: "15px" }}>
               <label style={{ display: "block", marginBottom: "5px", fontSize: "14px", color: "black" }}>
                 URL de Imagen:
@@ -181,17 +144,17 @@ export default function Card({ producto, productoIndex, onProductoEliminado, onP
                 type="url"
                 value={imagen}
                 onChange={(e) => setImagen(e.target.value)}
-                style={{ 
-                  width: "100%", 
-                  padding: "6px", 
-                  borderRadius: "4px", 
-                  border: "1px solid #ccc", 
+                style={{
+                  width: "100%",
+                  padding: "6px",
+                  borderRadius: "4px",
+                  border: "1px solid #ccc",
                   fontSize: "14px",
                   boxSizing: "border-box"
                 }}
               />
             </div>
-            
+
             <div style={{ display: "flex", gap: "8px", justifyContent: "center" }}>
               <button
                 type="button"
@@ -268,28 +231,28 @@ export default function Card({ producto, productoIndex, onProductoEliminado, onP
 
         {user && (
           <>
-            <button 
+            <button
               onClick={iniciarEdicion}
-              style={{ 
-                backgroundColor: "#007bff", 
-                color: "white", 
-                border: "none", 
-                padding: "8px 12px", 
-                borderRadius: "4px", 
+              style={{
+                backgroundColor: "#007bff",
+                color: "white",
+                border: "none",
+                padding: "8px 12px",
+                borderRadius: "4px",
                 cursor: "pointer",
                 marginTop: "10px"
               }}
             >
               ✏️ Editar
             </button>
-            <button 
+            <button
               onClick={handleEliminar}
-              style={{ 
-                backgroundColor: "#dc3545", 
-                color: "white", 
-                border: "none", 
-                padding: "8px 12px", 
-                borderRadius: "4px", 
+              style={{
+                backgroundColor: "#dc3545",
+                color: "white",
+                border: "none",
+                padding: "8px 12px",
+                borderRadius: "4px",
                 cursor: "pointer",
                 marginTop: "10px"
               }}

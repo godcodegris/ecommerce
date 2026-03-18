@@ -1,40 +1,20 @@
 import { useParams, Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useCarrito } from "../context/CarritoContext.jsx";
+import { useProductos } from "../context/ProductContext.jsx";
 
-export default function ProductoDetalle({ onAgregar }) {
+export default function ProductoDetalle() {
+  const { onAgregar } = useCarrito();
   const { id } = useParams();
-  const [producto, setProducto] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(false);
-  const [cantidad, setCantidad] = useState(1); // 👈 nueva cantidad local
+  const { productos, loading, error } = useProductos();
+  const [cantidad, setCantidad] = useState(1);
 
-  useEffect(() => {
-    const index = Number(id);
-    if (isNaN(index)) {
-      setError(true);
-      setIsLoading(false);
-      return;
-    }
+  if (loading) return <p>Cargando producto...</p>;
 
-    fetch("https://68659fd989803950dbafe5ae.mockapi.io/productos")
-      .then(res => {
-        if (!res.ok) throw new Error("Error al cargar productos");
-        return res.json();
-      })
-      .then(data => {
-        if (index < 0 || index >= data.length) {
-          throw new Error("Índice fuera de rango");
-        }
-        setProducto(data[index]);
-        setIsLoading(false);
-      })
-      .catch(() => {
-        setError(true);
-        setIsLoading(false);
-      });
-  }, [id]);
-
-  if (isLoading) return <p>Cargando producto...</p>;
+  const index = Number(id);
+  const producto = (!isNaN(index) && index >= 0 && index < productos.length)
+    ? productos[index]
+    : null;
 
   if (error || !producto) {
     return (
@@ -86,5 +66,3 @@ export default function ProductoDetalle({ onAgregar }) {
     </div>
   );
 }
-
-

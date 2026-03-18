@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
+import { getProductos, createProducto } from "../services/productosService.js";
 
 const ProductContext = createContext();
 
@@ -8,18 +9,9 @@ export function ProductProvider({ children }) {
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    fetch("https://68659fd989803950dbafe5ae.mockapi.io/productos")
-      .then((res) => {
-        if (!res.ok) throw new Error("Error al cargar productos");
-        return res.json();
-      })
+    getProductos()
       .then((data) => {
-        // Agregar id único basado en índice si no existe
-        const dataConIds = data.map((prod, index) => ({
-          id: prod.id !== undefined ? prod.id : index.toString(),
-          ...prod,
-        }));
-        setProductos(dataConIds);
+        setProductos(data);
         setLoading(false);
       })
       .catch((err) => {
@@ -30,9 +22,7 @@ export function ProductProvider({ children }) {
   }, []);
 
   const eliminarProducto = (id) => {
-    if (window.confirm("¿Querés eliminar este producto?")) {
-      setProductos((prev) => prev.filter((p) => p.id !== id));
-    }
+    setProductos((prev) => prev.filter((p) => p.id !== id));
   };
 
   const editarProducto = (id, nuevosDatos) => {
@@ -41,9 +31,28 @@ export function ProductProvider({ children }) {
     );
   };
 
+  const agregarProducto = async (nuevoProducto) => {
+    try {
+      const productoCreado = await createProducto(nuevoProducto);
+      setProductos(prev => [...prev, productoCreado]);
+      return productoCreado;
+    } catch (error) {
+      console.error("Error al agregar producto:", error);
+      throw error;
+    }
+  };
+
   return (
     <ProductContext.Provider
-      value={{ productos, setProductos, loading, error, eliminarProducto, editarProducto }}
+      value={{
+        productos,
+        setProductos,
+        loading,
+        error,
+        eliminarProducto,
+        editarProducto,
+        agregarProducto
+      }}
     >
       {children}
     </ProductContext.Provider>
