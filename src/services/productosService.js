@@ -1,13 +1,19 @@
-const BASE_URL = "https://68659fd989803950dbafe5ae.mockapi.io/productos";
+const BASE_URL = "https://ecommerce-backend-production-e9f1.up.railway.app";
 
 export async function getProductos() {
-  const response = await fetch(BASE_URL);
+  const response = await fetch(`${BASE_URL}/products`);
   if (!response.ok) throw new Error("Error al cargar productos");
   return response.json();
 }
 
+export async function getProductoPorId(id) {
+  const response = await fetch(`${BASE_URL}/products/${id}`);
+  if (!response.ok) throw new Error("Producto no encontrado");
+  return response.json();
+}
+
 export async function createProducto(nuevoProducto) {
-  const response = await fetch(BASE_URL, {
+  const response = await fetch(`${BASE_URL}/products`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(nuevoProducto)
@@ -17,7 +23,7 @@ export async function createProducto(nuevoProducto) {
 }
 
 export async function updateProducto(id, datos) {
-  const response = await fetch(`${BASE_URL}/${id}`, {
+  const response = await fetch(`${BASE_URL}/products/${id}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(datos)
@@ -30,9 +36,9 @@ export async function updateProducto(id, datos) {
 }
 
 export async function deleteProducto(id) {
-  const response = await fetch(`${BASE_URL}/${id}`, {
+  const response = await fetch(`${BASE_URL}/products/${id}`, {
     method: 'DELETE'
   });
   if (!response.ok) throw new Error("Error al eliminar");
-  return response;
+  return response.json();
 }
