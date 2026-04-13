@@ -3,14 +3,12 @@ import { useState } from "react";
 import { useAuth } from "../context/AuthContext.jsx";
 import { useProductos } from "../context/ProductContext.jsx";
 import { deleteProducto, updateProducto } from "../services/productosService.js";
-import "../styles/Productos.css";
 
-export default function Card({ producto, productoIndex }) {
+export default function Card({ producto }) {
   const { user } = useAuth();
   const { eliminarProducto, editarProducto } = useProductos();
   const [editando, setEditando] = useState(false);
   const [nombre, setNombre] = useState("");
-  const [descripcion, setDescripcion] = useState("");
   const [precio, setPrecio] = useState("");
   const [imagen, setImagen] = useState("");
 
@@ -30,7 +28,6 @@ export default function Card({ producto, productoIndex }) {
 
   const iniciarEdicion = () => {
     setNombre(producto.nombre || "");
-    setDescripcion(producto.descripcion || "");
     setPrecio(producto.precio ? producto.precio.toString() : "");
     setImagen(producto.imagen || "");
     setEditando(true);
@@ -44,7 +41,6 @@ export default function Card({ producto, productoIndex }) {
     e.preventDefault();
     const datosAEnviar = {
       nombre,
-      descripcion,
       precio: parseFloat(precio) || 0,
       imagen
     };
@@ -59,7 +55,6 @@ export default function Card({ producto, productoIndex }) {
     }
   };
 
-  // Vista de edicion
   if (editando) {
     return (
       <div className="producto-card">
@@ -73,15 +68,6 @@ export default function Card({ producto, productoIndex }) {
                 value={nombre}
                 onChange={(e) => setNombre(e.target.value)}
                 required
-              />
-            </div>
-            <div className="form-group">
-              <label>Descripcion:</label>
-              <textarea
-                value={descripcion}
-                onChange={(e) => setDescripcion(e.target.value)}
-                required
-                rows="2"
               />
             </div>
             <div className="form-group">
@@ -117,16 +103,13 @@ export default function Card({ producto, productoIndex }) {
     );
   }
 
-  // Vista normal
   return (
     <div className="producto-card">
-      <Link to={`/producto/${productoIndex}`}>
+      {/* ✅ Usa producto.id en vez de productoIndex */}
+      <Link to={`/producto/${producto.id}`}>
         <div className="card-image-wrapper">
           {producto.imagen ? (
-            <img
-              src={producto.imagen}
-              alt={producto.nombre || "Producto"}
-            />
+            <img src={producto.imagen} alt={producto.nombre || "Producto"} />
           ) : (
             <span className="card-no-image">Sin imagen</span>
           )}
@@ -135,22 +118,18 @@ export default function Card({ producto, productoIndex }) {
 
       <div className="card-body">
         <h3 className="card-title">
-          <Link to={`/producto/${productoIndex}`}>
+          <Link to={`/producto/${producto.id}`}>
             {producto.nombre || "Sin nombre"}
           </Link>
         </h3>
-        <p className="card-description">
-          {producto.descripcion || "Sin descripcion"}
-        </p>
         <p className="card-price">
-          {producto.precio !== undefined ? `$${producto.precio}` : "Sin precio"}
+          ${Number(producto.precio).toLocaleString('es-AR')}
         </p>
 
         <div className="card-actions">
-          <Link to={`/producto/${productoIndex}`} className="btn-ver-detalle">
+          <Link to={`/producto/${producto.id}`} className="btn-ver-detalle">
             Ver detalles
           </Link>
-
           {user && (
             <>
               <button onClick={iniciarEdicion} className="btn-outline">

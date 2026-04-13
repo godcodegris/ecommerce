@@ -29,25 +29,23 @@ export default function Navegacion() {
             Contacto
           </Link>
           <Link to="/carrito" className={`navbar-link navbar-cart ${isActive('/carrito') ? 'active' : ''}`}>
-            Carrito
+            🛒 Carrito
             {totalItems > 0 && <span className="cart-badge">{totalItems}</span>}
           </Link>
         </div>
 
-        <div className="navbar-auth">
-          {user ? (
+        {/* Solo mostrar si hay usuario admin logueado */}
+        {user && (
+          <div className="navbar-auth">
             <div className="navbar-user">
-              <span className="navbar-username">Hola, {user.username}</span>
-              <button onClick={logout} className="btn-danger navbar-btn">
+              <span className="navbar-username">{user.username}</span>
+              <button onClick={logout} className="btn-outline navbar-btn">
                 Salir
               </button>
             </div>
-          ) : (
-            <Link to="/login" className="btn-primary navbar-btn">
-              Iniciar Sesion
-            </Link>
-          )}
-        </div>
+          </div>
+        )}
+
       </div>
     </nav>
   );

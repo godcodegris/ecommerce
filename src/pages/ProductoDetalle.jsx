@@ -20,10 +20,8 @@ export default function ProductoDetalle() {
     );
   }
 
-  const index = Number(id);
-  const producto = (!isNaN(index) && index >= 0 && index < productos.length)
-    ? productos[index]
-    : null;
+  // ✅ Buscar por id real en vez de por índice
+  const producto = productos.find(p => String(p.id) === String(id));
 
   if (error || !producto) {
     return (
@@ -65,7 +63,7 @@ export default function ProductoDetalle() {
         <div className="detalle-info">
           <h2>{producto.nombre}</h2>
           <p className="detalle-desc">{producto.descripcion}</p>
-          <p className="detalle-precio">${producto.precio}</p>
+          <p className="detalle-precio">${Number(producto.precio).toLocaleString('es-AR')}</p>
 
           <div className="cantidad-selector">
             <button onClick={() => cantidad > 1 && setCantidad(c => c - 1)}>-</button>
@@ -78,7 +76,7 @@ export default function ProductoDetalle() {
             className="btn-agregar-carrito"
             style={agregado ? { backgroundColor: 'var(--color-success)' } : {}}
           >
-            {agregado ? 'Agregado!' : 'Agregar al carrito'}
+            {agregado ? '✅ Agregado!' : 'Agregar al carrito'}
           </button>
         </div>
       </div>

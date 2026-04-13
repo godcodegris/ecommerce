@@ -8,6 +8,7 @@ import ProductoDetalle from "./pages/ProductoDetalle.jsx";
 import Navegacion from "./components/Navegacion.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import Footer from './components/Footer.jsx';
+import Chatbot from "./components/Chatbot.jsx";
 
 function App() {
   return (
@@ -18,18 +19,12 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/login" element={<Login />} />
         <Route path="/" element={<Home />} />
-        <Route
-          path="/carrito"
-          element={
-            <ProtectedRoute>
-              <Carrito />
-            </ProtectedRoute>
-          }
-        />
+        <Route path="/carrito" element={<Carrito />} />
         <Route path="/about" element={<About />} />
         <Route path="/producto/:id" element={<ProductoDetalle />} />
       </Routes>
       <Footer />
+      <Chatbot />
     </BrowserRouter>
   );
 }

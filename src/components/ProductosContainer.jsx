@@ -3,9 +3,12 @@ import Card from "./Card.jsx";
 import { useProductos } from "../context/ProductContext.jsx";
 import "../styles/Productos.css";
 
+const CATEGORIAS = ["Todas", "Figuras de Acción", "Funkos", "Comics y Revistas", "Vintage", "Cards", "Varios"];
+
 export default function ProductosContainer() {
   const { productos, loading, error } = useProductos();
   const [busqueda, setBusqueda] = useState("");
+  const [categoriaActiva, setCategoriaActiva] = useState("Todas");
 
   if (loading) {
     return (
@@ -24,13 +27,30 @@ export default function ProductosContainer() {
     );
   }
 
-  const productosFiltrados = productos.filter(p =>
-    p.nombre.toLowerCase().includes(busqueda.toLowerCase()) ||
-    p.descripcion.toLowerCase().includes(busqueda.toLowerCase())
-  );
+  const productosFiltrados = productos
+    .filter(p => categoriaActiva === "Todas" || p.categoria === categoriaActiva)
+    .filter(p =>
+      (p.nombre || "").toLowerCase().includes(busqueda.toLowerCase()) ||
+      (p.descripcion || "").toLowerCase().includes(busqueda.toLowerCase())
+    );
 
   return (
     <div className="productos-container">
+
+      {/* Filtros por categoría */}
+      <div className="categorias-wrapper">
+        {CATEGORIAS.map(cat => (
+          <button
+            key={cat}
+            className={`categoria-btn ${categoriaActiva === cat ? "activa" : ""}`}
+            onClick={() => setCategoriaActiva(cat)}
+          >
+            {cat}
+          </button>
+        ))}
+      </div>
+
+      {/* Buscador */}
       <div className="search-wrapper">
         <span className="search-icon">&#128269;</span>
         <input
@@ -48,9 +68,10 @@ export default function ProductosContainer() {
         </div>
       ) : (
         <div className="productos-grid">
-          {productosFiltrados.map((producto, index) => (
-            <div key={producto.id || index} className="producto-wrapper">
-              <Card producto={producto} productoIndex={index} />
+          {/* ✅ Sin productoIndex */}
+          {productosFiltrados.map((producto) => (
+            <div key={producto.id} className="producto-wrapper">
+              <Card producto={producto} />
             </div>
           ))}
         </div>
