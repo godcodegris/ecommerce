@@ -22,7 +22,7 @@ export default function Home() {
     if (destacados.length === 0) return;
     const timer = setInterval(() => {
       setIndice((i) => (i + 1) % destacados.length);
-    }, 3000);
+    }, 7000);
     return () => clearInterval(timer);
   }, [destacados]);
 

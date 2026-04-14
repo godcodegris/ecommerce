@@ -133,6 +133,7 @@
   border-radius: 50%;
   z-index: 1;
   animation: orbMorph 8s ease-in-out infinite;
+  opacity:0.55;
 }
 
 .orb-glow {
@@ -318,22 +319,22 @@
   text-transform: uppercase;
 }
 
-.hero-cta {
-  display: inline-block;
-  background: transparent;
-  color: #39FF14;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  padding: 10px 24px;
-  border: 2px solid #39FF14;
-  width: fit-content;
-  transition: all 0.2s ease;
-  animation: neonGreen 3s ease-in-out infinite;
+.hero-cta{
+display:inline-block;
+background:#FFE600;
+color:#000;
+font-size:0.75rem;
+font-weight:700;
+letter-spacing:2px;
+text-transform:uppercase;
+padding:12px 26px;
+border:none;
+transition:all 0.2s ease;
 }
 
-.hero-cta:hover { background: #39FF14; color: #000; }
+.hero-cta:hover{
+background:#fff000;
+}
 
 @keyframes neonGreen {
   0%,100% {
@@ -383,10 +384,9 @@
   gap: 0.8rem;
 }
 
-.hero-carrusel-img-wrapper {
-  position: relative;
-  width: 280px;
-  height: 280px;
+.hero-carrusel-img-wrapper{
+width:360px;
+height:360px;
 }
 
 .hero-carrusel-img-wrapper::before {
