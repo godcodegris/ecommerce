@@ -26,6 +26,9 @@ export default function Home() {
             <div className="shine-secondary"></div>
             <div className="shine-bounce"></div>
           </div>
+
+          <h2 className="hero-store-name">El Ojo de Thundera</h2>
+
           <p className="hero-subtitle">
             Figuras &nbsp;·&nbsp; Coleccionables &nbsp;·&nbsp; Hobbies
           </p>
@@ -35,6 +38,7 @@ export default function Home() {
         </div>
 
         <div className="hero-right">
+          <p className="hero-tagline">Más allá de lo evidente</p>
           <div className="hero-image-wrapper">
             <img
               src="https://http2.mlstatic.com/D_NQ_NP_2X_800103-MLA103142340133_122025-F.webp"
@@ -47,8 +51,8 @@ export default function Home() {
             <span className="hero-badge-item">ARGENTINA</span>
           </div>
         </div>
-      </div>
 
+      </div>
       <div id="productos">
         <ProductosContainer />
       </div>
