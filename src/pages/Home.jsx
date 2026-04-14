@@ -1,3 +1,5 @@
+
+import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import ProductosContainer from "../components/ProductosContainer.jsx";
 import "../styles/Productos.css";
@@ -68,12 +70,14 @@ export default function Home() {
           {producto && (
             <div className="hero-carrusel">
               <div className="hero-carrusel-img-wrapper">
-                <img
-                  key={indice}
-                  src={producto.imagen}
-                  alt={producto.nombre}
-                  className="hero-carrusel-img"
-                />
+           <Link to={`/producto/${producto.id}`}>
+  <img
+    key={indice}
+    src={producto.imagen}
+    alt={producto.nombre}
+    className="hero-carrusel-img"
+  />
+</Link>
               </div>
               <p className="hero-carrusel-titulo">{producto.nombre}</p>
               <p className="hero-carrusel-precio">
