@@ -10,10 +10,14 @@ export function ProductProvider({ children }) {
 
   useEffect(() => {
     getProductos()
-      .then((data) => {
-        setProductos(data);
-        setLoading(false);
-      })
+  .then((data) => {
+    const dataConHttps = data.map((p) => ({
+      ...p,
+      thumbnail: p.thumbnail ? p.thumbnail.replace("http://", "https://") : p.thumbnail,
+    }));
+    setProductos(dataConHttps);
+    setLoading(false);
+  })
       .catch((err) => {
         console.error(err);
         setError(true);
