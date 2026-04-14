@@ -33,33 +33,34 @@ export default function Home() {
       <div className="home-hero">
         <div className="hero-dots"></div>
 
-        <div className="hero-left">
-          <div className="sphere-wrapper">
-            <div className="sphere-glow"></div>
-            <div className="sphere">
-              <div className="sphere-inner">
-                <div className="sphere-tile">
-                  <img src={logo} alt="El Ojo de Thundera" />
-                </div>
-                <div className="sphere-tile">
-                  <img src={logo} alt="El Ojo de Thundera" />
-                </div>
-              </div>
-            </div>
-            <div className="sphere-gel"></div>
-            <div className="shine-main"></div>
-            <div className="shine-secondary"></div>
-            <div className="shine-bounce"></div>
+        <div className="orb-bg">
+          <div className="orb-glow"></div>
+          <div className="orb-base"></div>
+          <div className="orb-logo">
+            <img src={logo} alt="El Ojo de Thundera" />
           </div>
+          <div className="orb-shine1"></div>
+          <div className="orb-shine2"></div>
+          <div className="orb-shine3"></div>
+          <div className="orb-shine4"></div>
+          <div className="orb-border"></div>
+        </div>
 
+        <div className="hero-left">
+          <div className="hero-logo-small">
+            <img src={logo} alt="El Ojo de Thundera" />
+          </div>
           <h2 className="hero-store-name">El Ojo de Thundera</h2>
-
           <p className="hero-subtitle">
             Figuras · Coleccionables · Hobbies
           </p>
           <a href="#productos" className="hero-cta">
             Explorar Coleccion
           </a>
+          <div className="hero-badge-row">
+            <span className="hero-badge-item">EST. 2015</span>
+            <span className="hero-badge-item">ARGENTINA</span>
+          </div>
         </div>
 
         <div className="hero-right">
