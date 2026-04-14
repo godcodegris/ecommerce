@@ -10,11 +10,11 @@ export default function Home() {
 
         <div className="hero-left">
           <div className="hero-logo-wrapper">
-            <img src={logo} alt="Thundera Store" className="hero-logo" />
+            <img src={logo} alt="El Ojo de Thundera" className="hero-logo hero-logo-spin" />
           </div>
           <h1 className="hero-title">
-            <span className="hero-line1">THUNDERA</span>
-            <span className="hero-line2">STORE</span>
+            <span className="hero-line1">EL OJO DE</span>
+            <span className="hero-line2">THUNDERA</span>
           </h1>
           <p className="hero-subtitle">
             Figuras &nbsp;·&nbsp; Coleccionables &nbsp;·&nbsp; Hobbies
@@ -33,7 +33,7 @@ export default function Home() {
             <img
               src="https://http2.mlstatic.com/D_NQ_NP_2X_800103-MLA103142340133_122025-F.webp"
               alt="Producto destacado"
-              className="hero-product-img"
+              className="hero-product-img hero-float"
             />
           </div>
         </div>

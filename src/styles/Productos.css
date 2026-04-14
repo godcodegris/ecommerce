@@ -1638,3 +1638,22 @@
     bottom: 5rem;
   }
 }
+/* ===== ANIMACIONES HERO EXTRA ===== */
+@keyframes heroFloat {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50% { transform: translateY(-12px) scale(1.02); }
+}
+
+@keyframes heroLogoSpin {
+  0% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(8deg) scale(1.05); }
+  100% { transform: rotate(0deg) scale(1); }
+}
+
+.hero-float {
+  animation: heroFloat 4s ease-in-out infinite !important;
+}
+
+.hero-logo-spin {
+  animation: heroLogoSpin 6s ease-in-out infinite !important;
+}
