@@ -137,10 +137,15 @@
 
 .orb-glow {
   position: absolute;
-  inset: -40px;
+  inset: -80px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(41,181,232,0.08) 50%, transparent 75%);
-  animation: glowPulse 5s ease-in-out infinite;
+  background: radial-gradient(
+    circle,
+    rgba(41,181,232,0.22) 30%,
+    rgba(41,181,232,0.08) 55%,
+    transparent 75%
+  );
+  animation: glowPulse 6s ease-in-out infinite;
 }
 
 .orb-base {
@@ -185,20 +190,34 @@
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  border: 1.5px solid rgba(120,210,255,0.2);
+  border: 1.5px solid rgba(120,210,255,0.28);
+
+  box-shadow:
+    inset 0 0 80px rgba(41,181,232,0.18),
+    inset 0 0 160px rgba(0,150,255,0.08),
+    0 0 25px rgba(41,181,232,0.12);
+
   animation: orbMorph 8s ease-in-out infinite;
 }
 
 .orb-shine1 {
   position: absolute;
-  top: 8%;
-  left: 18%;
-  width: 200px;
-  height: 90px;
-  background: rgba(255,255,255,0.18);
+  top: 6%;
+  left: 16%;
+  width: 230px;
+  height: 80px;
+
+  background: linear-gradient(
+    120deg,
+    rgba(255,255,255,0.9),
+    rgba(200,240,255,0.45),
+    transparent
+  );
+
   border-radius: 50%;
-  transform: rotate(-35deg);
-  filter: blur(22px);
+  transform: rotate(-38deg);
+  filter: blur(7px);
+
   animation: shinePulse 4s ease-in-out infinite;
 }
 
