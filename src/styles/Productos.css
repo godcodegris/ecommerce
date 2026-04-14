@@ -698,7 +698,11 @@ background:#fff000;
 /* ===== RESPONSIVE GENERAL ===== */
 @media (max-width: 900px) {
   .home-hero { flex-direction: column; padding: 3rem 2rem; }
-  .orb-bg { width: 400px; height: 400px; }
+  .orb-bg{
+width:240px;
+height:240px;
+opacity:0.25;
+}
   .hero-carrusel-img-wrapper { width: 200px; height: 200px; }
 }
 
