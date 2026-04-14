@@ -15,7 +15,7 @@ export default function Navegacion() {
       <div className="navbar-inner">
         <Link to="/" className="navbar-logo-wrapper">
           <img src={logo} alt="Thundera Collectibles" className="navbar-logo-img" />
-          <span className="navbar-logo-text">Thundera</span>
+          <span className="navbar-logo-text">El Ojo de Thundera</span>
         </Link>
 
         <div className="navbar-links">
