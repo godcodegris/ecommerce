@@ -10,7 +10,9 @@ export default function Home() {
 
   useEffect(() => {
     getProductos().then((productos) => {
-      const conImagen = productos.filter((p) => p.thumbnail);
+      const conImagen = productos
+        .filter((p) => p.thumbnail)
+        .map((p) => ({ ...p, thumbnail: p.thumbnail.replace("http://", "https://") }));
       const random = conImagen.sort(() => Math.random() - 0.5).slice(0, 8);
       setDestacados(random);
     }).catch(() => {});
