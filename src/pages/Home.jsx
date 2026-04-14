@@ -11,8 +11,8 @@ export default function Home() {
   useEffect(() => {
     getProductos().then((productos) => {
       const conImagen = productos
-        .filter((p) => p.thumbnail)
-        .map((p) => ({ ...p, thumbnail: p.thumbnail.replace("http://", "https://") }));
+        .filter((p) => p.imagen)
+        .map((p) => ({ ...p, imagen: p.imagen.replace("http://", "https://") }));
       const random = conImagen.sort(() => Math.random() - 0.5).slice(0, 8);
       setDestacados(random);
     }).catch(() => {});
@@ -70,21 +70,17 @@ export default function Home() {
               <div className="hero-carrusel-img-wrapper">
                 <img
                   key={indice}
-                  src={producto.thumbnail}
-                  alt={producto.title}
+                  src={producto.imagen}
+                  alt={producto.nombre}
                   className="hero-carrusel-img"
                 />
               </div>
-              <p className="hero-carrusel-titulo">{producto.title}</p>
+              <p className="hero-carrusel-titulo">{producto.nombre}</p>
               <p className="hero-carrusel-precio">
-                ${Number(producto.price).toLocaleString("es-AR")}
+                ${Number(producto.precio).toLocaleString("es-AR")}
               </p>
             </div>
           )}
-          <div className="hero-badge-row">
-            <span className="hero-badge-item">EST. 2015</span>
-            <span className="hero-badge-item">ARGENTINA</span>
-          </div>
         </div>
 
       </div>
