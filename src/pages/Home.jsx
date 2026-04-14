@@ -30,15 +30,15 @@ export default function Home() {
           <h2 className="hero-store-name">El Ojo de Thundera</h2>
 
           <p className="hero-subtitle">
-            Figuras &nbsp;·&nbsp; Coleccionables &nbsp;·&nbsp; Hobbies
+            Figuras · Coleccionables · Hobbies
           </p>
           <a href="#productos" className="hero-cta">
-            Explorar Colección
+            Explorar Coleccion
           </a>
         </div>
 
         <div className="hero-right">
-          <p className="hero-tagline">Más allá de lo evidente</p>
+          <p className="hero-tagline">Mas alla de lo evidente</p>
           <div className="hero-image-wrapper">
             <img
               src="https://http2.mlstatic.com/D_NQ_NP_2X_800103-MLA103142340133_122025-F.webp"
