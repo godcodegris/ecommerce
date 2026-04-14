@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import ProductosContainer from "../components/ProductosContainer.jsx";
 import "../styles/Productos.css";
 import logo from "../assets/logo.jpg";
-import { getProductos } from "../services/api.js";
+import { getProductos } from "../services/productosService.js";
 
 export default function Home() {
   const [destacados, setDestacados] = useState([]);
